@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\Input;
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
@@ -49,17 +50,17 @@ use Symfony\Component\Console\Input\Input;
                             </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ route('arisan.index') }}">
-                            <i class="ni ni-bullet-list-67 text-default"></i>
-                            <span class="nav-link-text">Arisan</span>
-                          </a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="{{ route('kelompok_arisan.index') }}">
-                            <i class="ni ni-bullet-list-67 text-default"></i>
-                            <span class="nav-link-text">Kelompok Arisan</span>
-                          </a>
-                      </li>
+                            <a class="nav-link" href="{{ route('arisan.index') }}">
+                              <i class="ni ni-bullet-list-67 text-default"></i>
+                              <span class="nav-link-text">Arisan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('kelompok_arisan.index') }}">
+                              <i class="ni ni-bullet-list-67 text-default"></i>
+                              <span class="nav-link-text">Kelompok Arisan</span>
+                            </a>
+                        </li>
                     </ul>
                     <!-- Divider -->
                     <hr class="my-3">
@@ -73,13 +74,9 @@ use Symfony\Component\Console\Input\Input;
         <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Navbar links -->
-                    {{-- INI GABOLEH DIHAPUS YAA SAYANG --}}
                     <ul class="navbar-nav align-items-center  ml-md-auto ">
         
                     </ul>
-                    {{-- SAMPAI SINI --}}
-
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
                         <li class="nav-item dropdown">
                             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -125,8 +122,16 @@ use Symfony\Component\Console\Input\Input;
                                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                     <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="#">Tables</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Data Peserta</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Kelompok Arisan</li>
                                 </ol>
+                                @if (session('status'))
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @endif
                             </nav>
                         </div>
                         <div class="col-lg-6 col-5 text-right">
@@ -142,37 +147,24 @@ use Symfony\Component\Console\Input\Input;
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
-                                    <form action="{{ route('peserta.store') }}" method="POST">
+                                    <form action="{{ route('kelompok_arisan.store') }}" method="POST">
                                         @csrf
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Tambah Peserta</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Tambah Kelompok</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-
-
                                             <div class="form-group mb-3">
                                                 <div class="input-group input-group-alternative">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
                                                             <i class="ni ni-circle-08"></i></span>
                                                     </div>
-                                                    <input class="form-control" placeholder="{{ __('Nama') }}"
-                                                        type="text" name="nm_peserta" value="{{ old('nama') }}" required
+                                                    <input class="form-control" placeholder="{{ __('Nama Kelomok') }}"
+                                                        type="text" name="nama_kelompok" value="{{ old('nama_kelompok') }}" required
                                                         autofocus>
-                                                </div>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <div class="input-group input-group-alternative">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            <i class="ni ni-square-pin"></i></span>
-                                                    </div>
-                                                    <input class="form-control" name="alamat"
-                                                        placeholder="{{ __('Alamat') }}" value="{{ old('alamat') }}"
-                                                        type="text" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
@@ -181,13 +173,38 @@ use Symfony\Component\Console\Input\Input;
                                                         <span class="input-group-text">
                                                             <i class="ni ni-collection"></i></span>
                                                     </div>
-                                                    <input class="form-control" name="no_tlp"
-                                                        placeholder="{{ __('No Telepon') }}" value="{{ old('no_tlp') }}"
+                                                    <select class="form-control" name="nama_arisan" id="nama_arisan">
+                                                        <option>Pilih Nama</option>
+                                                        @foreach($arisans as $arisan1)
+                                                        <option value="{{$arisan1->id}}" >{{$arisan1->nama_arisan}}</option>
+                                                        @endforeach   
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <div class="input-group input-group-alternative">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="ni ni-square-pin"></i></span>
+                                                    </div>
+                                                    {{-- @foreach($arisans as $arisan1) --}}
+                                                    <input class="form-control" name="keterangan" id="keterangan"
+                                                        placeholder="{{ __('Keterangan') }}" value="{{ old('keterangan') }}"
+                                                        type="text" required disabled>
+                                                    {{-- @endforeach   --}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <div class="input-group input-group-alternative">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="ni ni-collection"></i></span>
+                                                    </div>
+                                                    <input class="form-control" name="harga"
+                                                        placeholder="{{ __('Harga') }}" value="{{ old('harga') }}"
                                                         type="number" required>
                                                 </div>
                                             </div>
-
-
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -211,21 +228,22 @@ use Symfony\Component\Console\Input\Input;
                 <div class="col">
                     <div class="card bg-default shadow">
                         <div class="card-header bg-transparent border-0">
-                            <h3 class="text-white mb-0">Peserta</h3>
+                            <h3 class="text-white mb-0">Arisan</h3>
                         </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-dark table-flush">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col" class="sort" data-sort="no">No</th>
-                                        <th scope="col" class="sort" data-sort="nama">Nama Peserta</th>
-                                        <th scope="col" class="sort" data-sort="alamat">Alamat</th>
-                                        <th scope="col" class="sort" data-sort="notlp">No Telepon</th>
+                                        <th scope="col" class="sort" data-sort="nama">Nama Arisan</th>
+                                        <th scope="col" class="sort" data-sort="alamat">Keterngan</th>
+                                        <th scope="col" class="sort" data-sort="notlp">Harga</th>
+                                        <th scope="col" class="sort" data-sort="notlp">Slot</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list">
-                                    @foreach($pesertas as $peserta)
+                                    @foreach($arisans as $peserta)
                                     <tr>
                                         <th scope="row">
                                             <div class="media align-items-center">
@@ -235,13 +253,16 @@ use Symfony\Component\Console\Input\Input;
                                             </div>
                                         </th>
                                         <td class="nama">
-                                            {{$peserta->nm_peserta}}
+                                            {{$peserta->nama_arisan}}
                                         </td>
                                         <td>
-                                            {{$peserta->alamat}}
+                                            {{$peserta->keterangan}}
                                         </td>
                                         <td>
-                                            {{$peserta->no_tlp}}
+                                            {{$peserta->harga}}
+                                        </td>
+                                        <td>
+                                            {{$peserta->slot}}
                                         </td>
                                         <td class="text-right">
                                             <div class="dropdown">
@@ -254,7 +275,7 @@ use Symfony\Component\Console\Input\Input;
                                                         data-target="#editModal{{ $peserta->id }}"
                                                         ><span class="btn-inner--icon"><i class="ni send"></i></span>
                                                         <span class="btn-inner--text">Ubah</span></button>
-                                                        <form action="{{ route('peserta.destroy',$peserta->id) }}" method="POST">
+                                                        <form action="{{ route('arisan.destroy',$peserta->id) }}" method="POST">
                                                           @csrf
                                                           @method('DELETE')
                                                           <button class="btn btn-icon btn-danger dropdown-item" type="submit">
@@ -269,21 +290,19 @@ use Symfony\Component\Console\Input\Input;
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
-                                                            <form action="{{ route('peserta.update', $peserta->id) }}"
+                                                            <form action="{{ route('arisan.update', $peserta->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('put')
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="exampleModalLabel">
-                                                                        Edit Peserta</h5>
+                                                                        Edit Arisan</h5>
                                                                     <button type="button" class="close"
                                                                         data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-
-
                                                                     <div class="form-group mb-3">
                                                                         <div
                                                                             class="input-group input-group-alternative">
@@ -293,9 +312,9 @@ use Symfony\Component\Console\Input\Input;
                                                                                         class="ni ni-circle-08"></i></span>
                                                                             </div>
                                                                             <input class="form-control"
-                                                                                placeholder="{{ __('Nama') }}"
-                                                                                type="text" name="nm_peserta"
-                                                                                value="{{ $peserta->nm_peserta }}" required
+                                                                                placeholder="{{ __('Nama Arisan') }}"
+                                                                                type="text" name="nama_arisan"
+                                                                                value="{{ $peserta->nama_arisan }}" required
                                                                                 autofocus>
                                                                         </div>
                                                                     </div>
@@ -307,9 +326,9 @@ use Symfony\Component\Console\Input\Input;
                                                                                     <i
                                                                                         class="ni ni-square-pin"></i></span>
                                                                             </div>
-                                                                            <input class="form-control" name="alamat"
-                                                                                placeholder="{{ __('Alamat') }}"
-                                                                                value="{{ $peserta->alamat }}" type="text"
+                                                                            <input class="form-control" name="keterangan"
+                                                                                placeholder="{{ __('Keterangan') }}"
+                                                                                value="{{ $peserta->keterangan }}" type="text"
                                                                                 required>
                                                                         </div>
                                                                     </div>
@@ -321,13 +340,26 @@ use Symfony\Component\Console\Input\Input;
                                                                                     <i
                                                                                         class="ni ni-collection"></i></span>
                                                                             </div>
-                                                                            <input class="form-control" name="no_tlp"
-                                                                                placeholder="{{ __('No Telepon') }}"
-                                                                                value="{{ $peserta->no_tlp }}"
+                                                                            <input class="form-control" name="harga"
+                                                                                placeholder="{{ __('Harga') }}"
+                                                                                value="{{ $peserta->harga }}"
                                                                                 type="number" required>
                                                                         </div>
                                                                     </div>
-
+                                                                    <div class="form-group mb-3">
+                                                                        <div
+                                                                            class="input-group input-group-alternative">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">
+                                                                                    <i
+                                                                                        class="ni ni-collection"></i></span>
+                                                                            </div>
+                                                                            <input class="form-control" name="slot"
+                                                                                placeholder="{{ __('Slot') }}"
+                                                                                value="{{ $peserta->slot }}"
+                                                                                type="number" required>
+                                                                        </div>
+                                                                    </div>
 
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -391,6 +423,35 @@ use Symfony\Component\Console\Input\Input;
     <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
     <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+
+    {{-- INI ADALAH UNTUK DROPDOWN --}}
+    <script type="text/javascript">
+        $.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+});
+$(document).ready(function () {
+$('#nama_arisan').on('change',function(e) {
+var id_arisan = e.target.value;
+$.ajax({
+url:"{{ route('showById') }}",
+type:"GET",
+data: {
+id_arisan: id_arisan,
+},
+success:function (data) {
+$('#keterangan').empty();
+// $.each(data.arisan[0].arisan,function(index,hasil){
+$('#keterangan').text("KONTOL");
+// })
+}
+})
+});
+});
+    </script>
+    {{-- SAMPAI SINI --}}
+
     <!-- Argon JS -->
     <script src="../assets/js/argon.js?v=1.2.0"></script>
 </body>

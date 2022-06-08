@@ -91,18 +91,6 @@
                     <i class="ni ni-single-02"></i>
                     <span>My profile</span>
                 </a>
-                <a href="#" class="dropdown-item">
-                    <i class="ni ni-settings-gear-65"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="ni ni-calendar-grid-58"></i>
-                    <span>Activity</span>
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="ni ni-support-16"></i>
-                    <span>Support</span>
-                </a>
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
@@ -185,12 +173,19 @@
                   <i class="ni ni-bullet-list-67 text-default"></i>
                   <span class="nav-link-text">Peserta</span>
                 </a>
-            {{-- </li>
-                           <li class="nav-item mb-5 mr-4 ml-4 pl-1 bg-danger" style="position: absolute; bottom: 0;">
-                    <a class="nav-link text-white" href="https://www.creative-tim.com/product/argon-dashboard-pro-laravel" target="_blank">
-                        <i class="ni ni-cloud-download-95"></i> Upgrade to PRO
-                    </a>
-                </li> --}}
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('arisan.index') }}">
+                  <i class="ni ni-bullet-list-67 text-default"></i>
+                  <span class="nav-link-text">Arisan</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('peserta.index') }}">
+                  <i class="ni ni-bullet-list-67 text-default"></i>
+                  <span class="nav-link-text">Kelompok Arisan</span>
+                </a>
+            </li>
         </ul>
         <!-- Divider -->
         <hr class="my-3">

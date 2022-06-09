@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Peserta;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,10 +65,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $role = "user";
+
+        $regPeserta = Peserta::create([
+            'nm_peserta' => $data['name'],
+            'alamat' => $data['alamat'],
+            'no_tlp' => $data['no_tlp'],
+            'stts' => 0,
+            'sttsPeserta' => 0,
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
         ]);
+
+        if ($regPeserta) {
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $role
+            ]);
+        }
     }
 }

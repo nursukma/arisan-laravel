@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Peserta;
-// use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class PesertaController extends Controller
 {
@@ -59,18 +60,23 @@ class PesertaController extends Controller
         $save = Peserta::create([
             'nm_peserta' => $request->nm_peserta,
             'alamat' => $request->alamat,
-            'no_tlp' => $request->no_tlp
+            'no_tlp' => $request->no_tlp,
+            'stts' => 0,
+            'sttsPeserta' => 0
         ]);
 
-        // $save_status = DB::table('statuss')->insert([
-        //     'nm_peserta' => $request->nm_peserta,
-        //     'alamat' => $request->alamat,
-        //     'no_tlp' => $request->no_tlp,
-        //     'status' => 'belum lunas'
-        // ]);
+        $role = "user";
+        $saveUser = User::create([
+            'name' => $request->nm_peserta,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $role
+        ]);
 
         if ($save) {
-            return back()->with('success', 'Data Sukses Disimpan');
+            if ($saveUser) {
+                return back()->with('success', 'Data Sukses Disimpan');
+            }
         }
     }
 

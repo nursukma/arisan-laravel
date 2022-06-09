@@ -20,8 +20,8 @@ class KelompokArisanController extends Controller
     public function showById(Request $request)
 
     {
-        $id = $request->id_arisan;
-        $arisans = Arisan::where('id', $id)->with('arisan')->get();
+        $id = $request->id;
+        $arisans = Arisan::find($id);
 
         return response()->json([
             'arisan' => $arisans
@@ -35,18 +35,22 @@ class KelompokArisanController extends Controller
             'id_arisan' => 'required',
             'keterangan' => 'required',
             'harga' => 'required',
-            'status' => 'required'
+            'slot' => 'required',
         ]);
 
         $save = KelompokArisan::create([
             'nama_kelompok' => $request->nama_kelompok,
-            'id_arisan' => $request->id_arisan,
+            'id_arisan' => $request->id_fix,
             'keterangan' => $request->keterangan,
             'harga' => $request->harga,
-            'status' => $request->status
+            'status' => $request->id_fix,
+            'slot' => $request->slot,
         ]);
+
         if ($save) {
             return back()->withStatus('Data Sukses Disimpan');
+        } else {
+            return back()->withStatus('Data Gagal');
         }
     }
 

@@ -141,15 +141,12 @@ use Symfony\Component\Console\Input\Input;
                                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                     <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="#">Tables</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Data Peserta</li>
+                                   
+                                    @foreach($pembayarans as $detail_kelompok)
+                                    <li class="breadcrumb-item active" aria-current="page">Data Pembayaran {{$detail_kelompok->kelompok_arisan['nama_kelompok']}}</li> 
+                                    @endforeach
                                 </ol>
                             </nav>
-                        </div>
-                        <div class="col-lg-6 col-5 text-right">
-                            <button type="button" class="btn btn-success" data-toggle="modal"
-                                data-target="#exampleModal">
-                                Tambah
-                            </button>
                         </div>
                         <!-- Modal Tambah-->
                         {{-- {{$count = Input::get('counter');}} --}}
@@ -158,7 +155,7 @@ use Symfony\Component\Console\Input\Input;
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
-                                    <form action="{{ route('peserta.store') }}" method="POST">
+                                    {{-- <form action="{{ route('peserta.store') }}" method="POST"> --}}
                                         @csrf
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Tambah Peserta</h5>
@@ -202,28 +199,6 @@ use Symfony\Component\Console\Input\Input;
                                                         type="number" required>
                                                 </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <div class="input-group input-group-alternative">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            <i class="ni ni-collection"></i></span>
-                                                    </div>
-                                                    <input class="form-control" name="email"
-                                                        placeholder="{{ __('Emain@gmail.com') }}" value="{{ old('email') }}"
-                                                        type="email" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <div class="input-group input-group-alternative">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            <i class="ni ni-collection"></i></span>
-                                                    </div>
-                                                    <input class="form-control" name="password"
-                                                        placeholder="{{ __('Password') }}" value="{{ old('password') }}"
-                                                        type="password" required>
-                                                </div>
-                                            </div>
 
 
                                         </div>
@@ -249,7 +224,7 @@ use Symfony\Component\Console\Input\Input;
                 <div class="col">
                     <div class="card bg-default shadow">
                         <div class="card-header bg-transparent border-0">
-                            <h3 class="text-white mb-0">Peserta</h3>
+                            <h3 class="text-white mb-0">Pembayaran</h3>
                         </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-dark table-flush">
@@ -257,132 +232,74 @@ use Symfony\Component\Console\Input\Input;
                                     <tr>
                                         <th scope="col" class="sort" data-sort="no">No</th>
                                         <th scope="col" class="sort" data-sort="nama">Nama Peserta</th>
-                                        <th scope="col" class="sort" data-sort="alamat">Alamat</th>
-                                        <th scope="col" class="sort" data-sort="notlp">No Telepon</th>
+                                        <th scope="col" class="sort" data-sort="alamat">Nama Kelompok</th>
+                                        <th scope="col" class="sort" data-sort="notlp">Tagihan</th>
+                                        <th scope="col" class="sort" data-sort="alamat">Tanggal bayar</th>
+                                        <th scope="col" class="sort" data-sort="alamat">Status Pembayaran</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list">
-                                    @foreach($pesertas as $peserta)
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="name mb-0 text-sm">{{++$i}}</span>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td class="nama">
-                                            {{$peserta->nm_peserta}}
-                                        </td>
-                                        <td>
-                                            {{$peserta->alamat}}
-                                        </td>
-                                        <td>
-                                            {{$peserta->no_tlp}}
-                                        </td>
-                                        <td class="text-right">
-                                            <div class="dropdown">
-                                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <button class="btn btn-icon btn-primary dropdown-item" data-toggle="modal"
-                                                        data-target="#editModal{{ $peserta->id }}"
-                                                        ><span class="btn-inner--icon"><i class="ni send"></i></span>
-                                                        <span class="btn-inner--text">Ubah</span></button>
-                                                        <form action="{{ route('peserta.destroy',$peserta->id) }}" method="POST">
-                                                          @csrf
-                                                          @method('DELETE')
-                                                          <button class="btn btn-icon btn-danger dropdown-item" type="submit">
-                                                            <span class="btn-inner--icon"><i class="ni fat-remove"></i></span>
-                                                              <span class="btn-inner--text">Hapus</span>
-                                                          </button>
-                                                        </form>
-                                                </div>
-
-                                                {{-- Modal Edit --}}
-                                                <div class="modal fade" id="editModal{{$peserta->id}}" tabindex="-1" role="dialog"
-                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <form action="{{ route('peserta.update', $peserta->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('put')
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">
-                                                                        Edit Peserta</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-
-
-                                                                    <div class="form-group mb-3">
-                                                                        <div
-                                                                            class="input-group input-group-alternative">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text">
-                                                                                    <i
-                                                                                        class="ni ni-circle-08"></i></span>
-                                                                            </div>
-                                                                            <input class="form-control"
-                                                                                placeholder="{{ __('Nama') }}"
-                                                                                type="text" name="nm_peserta"
-                                                                                value="{{ $peserta->nm_peserta }}" required
-                                                                                autofocus>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group mb-3">
-                                                                        <div
-                                                                            class="input-group input-group-alternative">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text">
-                                                                                    <i
-                                                                                        class="ni ni-square-pin"></i></span>
-                                                                            </div>
-                                                                            <input class="form-control" name="alamat"
-                                                                                placeholder="{{ __('Alamat') }}"
-                                                                                value="{{ $peserta->alamat }}" type="text"
-                                                                                required>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group mb-3">
-                                                                        <div
-                                                                            class="input-group input-group-alternative">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text">
-                                                                                    <i
-                                                                                        class="ni ni-collection"></i></span>
-                                                                            </div>
-                                                                            <input class="form-control" name="no_tlp"
-                                                                                placeholder="{{ __('No Telepon') }}"
-                                                                                value="{{ $peserta->no_tlp }}"
-                                                                                type="number" required>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Simpan
-                                                                        </button>
-                                                                </div>
-                                                            </form>
+                                    @foreach($pembayarans as $pembayaran)
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="media align-items-center">
+                                                        <div class="media-body">
+                                                            <span class="name mb-0 text-sm">{{++$i}}</span>
                                                         </div>
-                                                        {{-- @endforeach --}}
                                                     </div>
-                                                </div>
+                                                </th>
+                                                <td class="nama">
+                                                    {{$pembayaran->peserta['nm_peserta']}}
+                                                </td>
+                                                <td>
+                                                    {{$pembayaran->kelompok_arisan['nama_kelompok']}}
+                                                </td><td>
+                                                    {{$pembayaran->kelompok_arisan['harga']}}
+                                                </td>
+                                                <td>
+                                                    {{$pembayaran->tgl_setor}}
+                                                </td>
+                                                <td>
+                                                    @if($pembayaran->stts == 0)
+                                                        Belum Tervalidasi
+                                                    
+                                                    @else
+                                                        Tervalidasi
+                                                    
+                                                    @endif
+                                                </td>
+                                                <td class="text-right">
+                                                    <div class="dropdown">
+                                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </a>
+                                                        
+                                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                            <form action= "/upValidasi/{{$pembayaran->id_detail_kelompok}}" method="POST">
+                                                                @csrf
+                                                                @method('POST')
+                                                                @if($pembayaran->stts == 0)
+                                                                <button class="btn btn-icon btn-danger dropdown-item" type="submit">
+                                                                    <span class="btn-inner--icon"><i class="ni fat-remove"></i></span>
+                                                                      <span class="btn-inner--text">Validasi Pembayaran</span>
+                                                                </button>
+                                                                @else
+                                                                <button class="btn btn-icon btn-danger dropdown-item" type="submit" disabled>
+                                                                    <span class="btn-inner--icon"><i class="ni fat-remove"></i></span>
+                                                                      <span class="btn-inner--text">Validasi Pembayaran</span>
+                                                                </button>
+                                                                @endif
+                                                              </form>
+                                                        </div>
+        
+                                                        {{-- Modal Edit --}}
 
-                                            </div>
-                                        </td>
-                                    </tr>
+        
+                                                    </div> 
+                                                </td> 
+                                            </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -431,6 +348,34 @@ use Symfony\Component\Console\Input\Input;
     <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
     <!-- Argon JS -->
     <script src="../assets/js/argon.js?v=1.2.0"></script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+});
+$(document).ready(function () {
+$('#id_peserta').on('change',function(e) {
+var id_peserta = e.target.value;
+$.ajax({
+                type: 'get',
+                url: '/showPesertaId/'+id_peserta,
+                data: { 'id': id_peserta},
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data)
+                     $('input[name=nm_peserta').val(data.peserta['nm_peserta']);
+                     $('input[name=alamat').val(data.peserta['alamat']);
+                     $('input[name=no_tlp').val(data.peserta['no_tlp']);
+                     $('input[name=id_fix').val(data.peserta['id']);
+                     },
+                error:function(){
+                }
+            });
+});
+});
+    </script>
 </body>
 
 </html>

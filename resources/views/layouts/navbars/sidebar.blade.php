@@ -26,18 +26,6 @@
                         <i class="ni ni-single-02"></i>
                         <span>{{ __('My profile') }}</span>
                     </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ni ni-settings-gear-65"></i>
-                        <span>{{ __('Settings') }}</span>
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ni ni-calendar-grid-58"></i>
-                        <span>{{ __('Activity') }}</span>
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ni ni-support-16"></i>
-                        <span>{{ __('Support') }}</span>
-                    </a>
                     <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
@@ -66,32 +54,51 @@
                 </div>
             </div>
             <!-- Navigation -->
+            @if(auth()->user()->role == "user")
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
-                    </a>
-                </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="{{ route('user_arisan.index') }}">
+                     <i class="ni ni-bullet-list-67 text-default"></i>
+                     <span class="nav-link-text">Arisan</span>
+                   </a>
+               </li>
                
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('peserta.index') }}">
-                      <i class="ni ni-bullet-list-67 text-default"></i>
-                      <span class="nav-link-text">Peserta</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('arisan.index') }}">
-                      <i class="ni ni-bullet-list-67 text-default"></i>
-                      <span class="nav-link-text">Arisan</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('kelompok_arisan.index') }}">
-                      <i class="ni ni-bullet-list-67 text-default"></i>
-                      <span class="nav-link-text">Kelompok Arisan</span>
-                    </a>
-                </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/showHistory/"{{auth()->user()->id}}>
+                     <i class="ni ni-bullet-list-67 text-default"></i>
+                     <span class="nav-link-text">Pembayaran Arisan</span>
+                   </a>
+               </li>
             </ul>
+            @endif
+            
+            @if(auth()->user()->role == "admin") 
+            <ul class="navbar-nav">
+               <li class="nav-item">
+                   <a class="nav-link" href="{{ route('home') }}">
+                       <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                   </a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="{{ route('peserta.index') }}">
+                     <i class="ni ni-bullet-list-67 text-default"></i>
+                     <span class="nav-link-text">Peserta</span>
+                   </a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="{{ route('arisan.index') }}">
+                     <i class="ni ni-bullet-list-67 text-default"></i>
+                     <span class="nav-link-text">Arisan</span>
+                   </a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="{{ route('kelompok_arisan.index') }}">
+                     <i class="ni ni-bullet-list-67 text-default"></i>
+                     <span class="nav-link-text">Kelompok Arisan</span>
+                   </a>
+               </li>
+            </ul>
+            @endif
             <!-- Divider -->
             <hr class="my-3">
            

@@ -9,7 +9,7 @@ use App\Models\KelompokArisan;
 
 class Pembayaran extends Model
 {
-    protected $fillable = ['id_kelompok', 'id_peserta', 'tgl_setor', 'stts'];
+    protected $fillable = ['id_kelompok', 'id_peserta', 'tgl_setor', 'stts', 'id_detail_kelompok'];
     use HasFactory;
 
     public function kelompok_arisan()
@@ -19,5 +19,9 @@ class Pembayaran extends Model
     public function peserta()
     {
         return $this->belongsTo(Peserta::class, 'id_peserta');
+    }
+    public function detail_kelompok_arisan()
+    {
+        return $this->belongsTo(DetailKelompokArisan::class, 'id_detail_kelompok');
     }
 }

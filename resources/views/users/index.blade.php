@@ -119,24 +119,15 @@
             </div>
         </div>
         <!-- Form -->
-        <form class="mt-4 mb-3 d-md-none">
-            <div class="input-group input-group-rounded input-group-merge">
-                <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="Search" aria-label="Search">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <span class="fa fa-search"></span>
-                    </div>
-                </div>
-            </div>
-        </form>
+      
         <!-- Navigation -->
         <ul class="navbar-nav">
-             @if(auth()->user()->role == "admin")
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('home') }}">
-                    <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                 </a>
             </li>
+             @if(auth()->user()->role == "admin")
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('peserta.index') }}">
                   <i class="ni ni-bullet-list-67 text-default"></i>
@@ -164,7 +155,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="/showHistory/"{{$pesertas}}>
+                <a class="nav-link" href="/showHistory/{{$pesertas}}">
                   <i class="ni ni-bullet-list-67 text-default"></i>
                   <span class="nav-link-text">Pembayaran Arisan</span>
                 </a>

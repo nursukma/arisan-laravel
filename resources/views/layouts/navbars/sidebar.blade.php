@@ -1,3 +1,7 @@
+<?php
+use App\Models\Peserta;
+$pesertas = Peserta::where('email', auth()->user()->email)->value('id');
+?>
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
         <!-- Toggler -->
@@ -54,8 +58,14 @@
                 </div>
             </div>
             <!-- Navigation -->
-            @if(auth()->user()->role == "user")
+            
             <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home') }}">
+                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                    </a>
+                </li>
+            @if(auth()->user()->role == "user")
                <li class="nav-item">
                    <a class="nav-link" href="{{ route('user_arisan.index') }}">
                      <i class="ni ni-bullet-list-67 text-default"></i>
@@ -64,21 +74,19 @@
                </li>
                
                <li class="nav-item">
-                   <a class="nav-link" href="/showHistory/"{{auth()->user()->id}}>
+                    <a class="nav-link" href="/showHistory/{{$pesertas}}">
                      <i class="ni ni-bullet-list-67 text-default"></i>
                      <span class="nav-link-text">Pembayaran Arisan</span>
                    </a>
                </li>
-            </ul>
             @endif
             
             @if(auth()->user()->role == "admin") 
-            <ul class="navbar-nav">
-               <li class="nav-item">
+               {{-- <li class="nav-item">
                    <a class="nav-link" href="{{ route('home') }}">
                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                    </a>
-               </li>
+               </li> --}}
                <li class="nav-item">
                    <a class="nav-link" href="{{ route('peserta.index') }}">
                      <i class="ni ni-bullet-list-67 text-default"></i>

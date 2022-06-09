@@ -50,8 +50,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::resource('detail_kelompok_arisan', DetailKelompokController::class);
 	Route::resource('pembayaran', PembayaranController::class);
+	Route::get('kocok', [PembayaranController::class, 'kocok'])->name('kocok');
 
 	Route::post('upValidasi/{id}', [PembayaranController::class, 'upValidasi'])->name('upValidasi');
+	Route::post('tambahPembayaran', [PembayaranController::class, 'tambahPembayaran'])->name('tambahPembayaran');
 	Route::get('showHistory/{id}', [PembayaranController::class, 'showHistory'])->name('showHistory');
 
 	Route::post('gabung/{id}', [UserArisanController::class, 'gabung'])->name('gabung');

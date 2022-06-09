@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Peserta;
+
 class HomeController extends Controller
 {
     /**
@@ -21,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // $pesertas = Peserta::where('email', auth()->user()->email)->value('id');
         return view('dashboard');
     }
 }

@@ -148,6 +148,13 @@ use Symfony\Component\Console\Input\Input;
                                 </ol>
                             </nav>
                         </div>
+                        <div class="col-lg-6 col-5 text-right">
+                            {{-- <form action="{{ route('kocok') }}" method="post"> --}}
+                                <a href="{{route('kocok')}}" class="btn btn-success" id="kocok" name='kocok'>
+                                Kocok
+                                </a>
+                            {{-- </form> --}}
+                        </div>
                         <!-- Modal Tambah-->
                         {{-- {{$count = Input::get('counter');}} --}}
                         {{-- @foreach($pesertas as $peserta) --}}
@@ -288,7 +295,7 @@ use Symfony\Component\Console\Input\Input;
                                                                 @else
                                                                 <button class="btn btn-icon btn-danger dropdown-item" type="submit" disabled>
                                                                     <span class="btn-inner--icon"><i class="ni fat-remove"></i></span>
-                                                                      <span class="btn-inner--text">Validasi Pembayaran</span>
+                                                                      <span class="btn-inner--text">Pembayaran Tervalidasi</span>
                                                                 </button>
                                                                 @endif
                                                               </form>
@@ -376,6 +383,29 @@ $.ajax({
 });
 });
     </script>
+    {{-- <script type="text/javascript">
+        $.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+});
+$(document).ready(function () {
+$('#kocok').on('click',function(e) {
+// var id_peserta = e.target.value;
+$.ajax({
+                type: 'get',
+                url: '{{route('kocok')}}',
+                data: { 'id': id_peserta},
+                dataType: 'json',
+                success: function(data) {
+                    alert('Gagal')
+                     },
+                error:function(){
+                }
+            });
+});
+});
+    </script> --}}
 </body>
 
 </html>

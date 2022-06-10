@@ -10,7 +10,7 @@ class ArisanController extends Controller
 {
     public function index()
     {
-        $arisans = DB::table('arisans')->paginate(5);
+        $arisans = DB::table('arisans')->paginate(10);
         return view('pages.arisan', compact('arisans'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

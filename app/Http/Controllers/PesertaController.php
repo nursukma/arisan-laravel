@@ -29,7 +29,7 @@ class PesertaController extends Controller
 
 
 
-        $pesertas = DB::table('pesertas')->paginate(5);
+        $pesertas = DB::table('pesertas')->paginate(10);
         return view('pages.tables', compact('pesertas'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -62,15 +62,17 @@ class PesertaController extends Controller
             'alamat' => $request->alamat,
             'no_tlp' => $request->no_tlp,
             'stts' => 0,
-            'sttsPeserta' => 0
+            'sttsPeserta' => 0,
+            'email' => $request->email,
         ]);
 
         $role = "user";
+
         $saveUser = User::create([
             'name' => $request->nm_peserta,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $role
+            'role' => $role,
         ]);
 
         if ($save) {

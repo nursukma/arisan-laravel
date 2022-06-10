@@ -13,7 +13,7 @@ class KelompokArisanController extends Controller
     {
         $arisans = Arisan::all();
 
-        $kelompok_arisans = DB::table('kelompok_arisans')->paginate(5);
+        $kelompok_arisans = DB::table('kelompok_arisans')->paginate(10);
         return view('pages.kelompok_arisan.kelompok_arisan', compact('kelompok_arisans', 'arisans'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
